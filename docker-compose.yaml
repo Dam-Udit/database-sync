@@ -1,0 +1,54 @@
+services:
+  mysqldb:
+    image: mysql:8
+    restart: no
+    environment: 
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: oltp_database
+      MYSQL_USER: mysql_user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    expose:
+      - "3306"
+    volumes:
+      - mysqldb_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: no
+    environment:
+      PMA_HOST: mysqldb  
+      PMA_USER: mysql_user
+      PMA_PASSWORD: password
+    ports:
+      - "8081:80"
+
+  postgresqldb:
+    image: postgres:15
+    restart: no
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres_database
+    ports:
+      - "5433:5432"
+    expose:
+      - "5432"
+    volumes:
+      - postgresqldb_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5051:80"
+    depends_on:
+      - postgresqldb
+
+volumes:
+  mysqldb_data:
+  postgresqldb_data:
