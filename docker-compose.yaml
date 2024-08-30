@@ -1,12 +1,14 @@
+version: '3.8'
+
 services:
   mysqldb:
     image: mysql:8
     restart: no
-    environment: 
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: oltp_database
-      MYSQL_USER: mysql_user
-      MYSQL_PASSWORD: password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3307:3306"
     expose:
@@ -18,9 +20,9 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: no
     environment:
-      PMA_HOST: mysqldb  
-      PMA_USER: mysql_user
-      PMA_PASSWORD: password
+      PMA_HOST: ${PMA_HOST}
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
     ports:
       - "8081:80"
 
@@ -28,9 +30,9 @@ services:
     image: postgres:15
     restart: no
     environment:
-      POSTGRES_USER: postgres_user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres_database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5433:5432"
     expose:
@@ -42,8 +44,8 @@ services:
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "5051:80"
     depends_on:
